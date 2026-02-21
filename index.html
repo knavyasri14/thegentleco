@@ -207,6 +207,142 @@
             font-size: 4em;
             color: #c28b6d;
             opacity: 0.7;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 1;
+        }
+
+        /* Product Gallery */
+        .product-gallery {
+            position: relative;
+        }
+
+        .main-image-container {
+            position: relative;
+            height: 250px;
+            background: linear-gradient(135deg, #e8dcc8 0%, #f5e6d3 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: zoom-in;
+        }
+
+        .main-image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .image-thumbnails {
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            background: #f9f9f9;
+            overflow-x: auto;
+            border-top: 1px solid #e8dcc8;
+        }
+
+        .thumbnail {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #e8dcc8;
+            border-radius: 5px;
+            cursor: pointer;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: border-color 0.3s, transform 0.2s;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        .thumbnail.active {
+            border-color: #c28b6d;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 2.5em;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 2001;
+        }
+
+        .lightbox-close:hover {
+            color: #c28b6d;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            font-size: 2em;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            z-index: 2001;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
         }
 
         .product-info {
@@ -423,7 +559,19 @@
             <div class="products-grid">
                 <!-- Product 1 -->
                 <div class="product-card">
-                    <div class="product-image">🌿</div>
+                    <div class="product-gallery">
+                        <div class="main-image-container" onclick="openLightbox(this)">
+                            <img src="images/saffron-moisturizer-1.png" alt="Saffron Moisturizer" class="main-image">
+                        </div>
+                        <div class="image-thumbnails">
+                            <div class="thumbnail active" onclick="switchImage(this)">
+                                <img src="images/saffron-moisturizer-1.png" alt="saffron 1">
+                            </div>
+                            <div class="thumbnail" onclick="switchImage(this)">
+                                <img src="images/saffron-moisturizer-2.png" alt="saffron 2">
+                            </div>
+                        </div>
+                    </div>
                     <div class="product-info">
                         <span class="product-tag">Natural</span>
                         <h3>Saffron Moisturizer</h3>
@@ -435,7 +583,19 @@
                 <!-- Product 2 -->
                 <div class="product-card">
                     <!-- <div class="product-image">🌸</div> -->
-                    <div class="product-image">🌿</div>
+                    <div class="product-gallery">
+                        <div class="main-image-container" onclick="openLightbox(this)">
+                            <img src="images/coffee-scrub-main.png" alt="Coffee Scrub" class="main-image">
+                        </div>
+                        <div class="image-thumbnails">
+                            <div class="thumbnail" onclick="switchImage(this)">
+                                <img src="images/coffee-scrub-2.png" alt="coffee 1">
+                            </div>
+                            <div class="thumbnail" onclick="switchImage(this)">
+                                <img src="images/coffee-scrub-3.png" alt="coffee 1">
+                            </div>
+                        </div>
+                    </div>
                     <div class="product-info">
                         <span class="product-tag">Natural</span>
                         <h3>Coffee Scrub</h3>
@@ -577,6 +737,90 @@
                     document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
                 }
             });
+        });
+
+        // Product Image Gallery - Switch main image on thumbnail click
+        function switchImage(thumbnailElement) {
+            const gallery = thumbnailElement.closest('.product-gallery');
+            const mainImage = gallery.querySelector('.main-image');
+            const newImageSrc = thumbnailElement.querySelector('img').src;
+            
+            mainImage.src = newImageSrc;
+            mainImage.alt = thumbnailElement.querySelector('img').alt;
+            
+            // Update active thumbnail
+            gallery.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            thumbnailElement.classList.add('active');
+        }
+
+        // Open lightbox for full-screen image view
+        function openLightbox(imageContainer) {
+            const gallery = imageContainer.closest('.product-gallery');
+            const mainImageSrc = imageContainer.querySelector('img').src;
+            const thumbnails = Array.from(gallery.querySelectorAll('.thumbnail img')).map(img => img.src);
+            const currentIndex = thumbnails.indexOf(mainImageSrc);
+            
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox active';
+            lightbox.id = 'productLightbox';
+            lightbox.innerHTML = `
+                <button class="lightbox-close" onclick="closeLightbox()">×</button>
+                <div class="lightbox-content">
+                    <img src="${mainImageSrc}" alt="Product Image" class="lightbox-image" id="lightboxImage">
+                    ${thumbnails.length > 1 ? '<button class="lightbox-nav lightbox-prev" onclick="lightboxPrev()">‹</button>' : ''}
+                    ${thumbnails.length > 1 ? '<button class="lightbox-nav lightbox-next" onclick="lightboxNext()">›</button>' : ''}
+                </div>
+            `;
+            lightbox.dataset.images = JSON.stringify(thumbnails);
+            lightbox.dataset.currentIndex = currentIndex;
+            document.body.appendChild(lightbox);
+            document.body.style.overflow = 'hidden';
+            
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+        }
+
+        // Close lightbox
+        function closeLightbox() {
+            const lightbox = document.getElementById('productLightbox');
+            if (lightbox) {
+                lightbox.remove();
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Navigate to next image in lightbox
+        function lightboxNext() {
+            const lightbox = document.getElementById('productLightbox');
+            const images = JSON.parse(lightbox.dataset.images);
+            let currentIndex = parseInt(lightbox.dataset.currentIndex);
+            currentIndex = (currentIndex + 1) % images.length;
+            lightbox.dataset.currentIndex = currentIndex;
+            document.getElementById('lightboxImage').src = images[currentIndex];
+        }
+
+        // Navigate to previous image in lightbox
+        function lightboxPrev() {
+            const lightbox = document.getElementById('productLightbox');
+            const images = JSON.parse(lightbox.dataset.images);
+            let currentIndex = parseInt(lightbox.dataset.currentIndex);
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            lightbox.dataset.currentIndex = currentIndex;
+            document.getElementById('lightboxImage').src = images[currentIndex];
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('productLightbox')) {
+                if (e.key === 'ArrowRight') lightboxNext();
+                if (e.key === 'ArrowLeft') lightboxPrev();
+                if (e.key === 'Escape') closeLightbox();
+            }
         });
     </script>
 </body>
