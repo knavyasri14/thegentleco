@@ -48,44 +48,46 @@
         /* Header & Navigation */
         header {
             background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            padding: 50px 20px 30px;
+            padding: 15px 20px 10px;
             text-align: center;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04);
             position: sticky;
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(232, 232, 232, 0.5);
+            transition: all 0.3s ease;
         }
 
         .header-content h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5em;
+            font-size: 2.2em;
             color: #2c5530;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 5px;
+            letter-spacing: 0.3px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
             position: relative;
             display: inline-block;
+            transition: all 0.3s ease;
         }
 
         .header-content h1::before,
         .header-content h1::after {
             content: '✨';
-            font-size: 0.5em;
-            margin: 0 20px;
+            font-size: 0.35em;
+            margin: 0 10px;
             opacity: 0.8;
         }
 
         .tagline {
-            font-size: 1.3em;
+            font-size: 0.95em;
             color: #6b8e6b;
             font-weight: 400;
-            letter-spacing: 1px;
+            letter-spacing: 0.3px;
             text-transform: none;
             margin-top: 0;
             position: relative;
             display: block;
-            padding: 10px 0;
+            padding: 3px 0;
             font-style: italic;
         }
 
@@ -794,13 +796,34 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            header {
+                padding: 15px 15px 8px;
+            }
+
             .header-content h1 {
-                font-size: 2.2em;
+                font-size: 1.8em;
+            }
+
+            .header-content h1::before,
+            .header-content h1::after {
+                font-size: 0.3em;
+                margin: 0 8px;
+            }
+
+            .tagline {
+                font-size: 0.9em;
+                padding: 2px 0;
             }
 
             nav a {
                 display: block;
-                margin: 10px 0;
+                margin: 8px 0;
+                padding: 10px 0;
+            }
+
+            .hero {
+                padding: 80px 15px;
+                margin-bottom: 60px;
             }
 
             .hero h2 {
@@ -821,6 +844,11 @@
                 margin-bottom: 10px;
             }
 
+            .inspiration {
+                padding: 60px 15px;
+                margin-bottom: 60px;
+            }
+
             .inspiration h2 {
                 font-size: 1.8em;
             }
@@ -830,6 +858,11 @@
                 padding: 0 15px;
             }
             
+            .contact {
+                padding: 60px 15px;
+                margin-bottom: 60px;
+            }
+
             .contact h2 {
                 font-size: 2em;
             }
@@ -864,22 +897,27 @@
                 align-items: center;
                 justify-content: center;
             }
-            
-            nav a {
-                padding: 10px 0;
-                margin: 8px 0;
-            }
         }
         
         /* Small mobile devices */
         @media (max-width: 480px) {
+            header {
+                padding: 12px 10px 6px;
+            }
+
             .header-content h1 {
-                font-size: 1.8em;
+                font-size: 1.4em;
+            }
+
+            .header-content h1::before,
+            .header-content h1::after {
+                font-size: 0.25em;
+                margin: 0 6px;
             }
             
             .tagline {
-                font-size: 0.9em;
-                letter-spacing: 2px;
+                font-size: 0.8em;
+                letter-spacing: 0.3px;
             }
             
             .hero h2 {
